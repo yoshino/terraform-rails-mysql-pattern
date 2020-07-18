@@ -1,0 +1,62 @@
+[
+  {
+    "name": "${image_name}",
+    "image": "870606920334.dkr.ecr.ap-northeast-1.amazonaws.com/app",
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "/ecs/${image_name}",
+        "awslogs-region": "ap-northeast-1",
+        "awslogs-stream-prefix": "ecs-app"
+      }
+    },
+    "mountPoints": [
+      {
+        "sourceVolume": "socket-data",
+        "containerPath": "/app/tmp"
+      },
+      {
+        "sourceVolume": "public-data",
+        "containerPath": "/app/public"
+      }
+    ],
+    "environment": [
+        { "name": "RAILS_ENV", "value": "production" },
+        { "name": "RAILS_MASTER_KEY", "value": "${rails_master_key}" },
+        { "name": "DATABASE_HOST", "value": "${db_host}" },
+        { "name": "DATABASE_USERNAME", "value": "${db_user}" },
+        { "name": "DATABASE_PASSWORD", "value": "${db_password}" },
+        { "name": "DATABASE_NAME", "value": "${db_name}" }
+    ],
+    "essential": true,
+    "command": ["bundle", "exec", "puma", "-C", "/app/config/puma.rb"]
+  },
+  {
+    "name": "nginx",
+    "image": "870606920334.dkr.ecr.ap-northeast-1.amazonaws.com/nginx:1.0",
+    "portMappings": [
+      {
+        "hostPort": 8080,
+        "containerPort": 8080
+      }
+    ],
+    "mountPoints": [
+      {
+        "sourceVolume": "socket-data",
+        "containerPath": "/app/tmp"
+      },
+      {
+        "sourceVolume": "public-data",
+        "containerPath": "/app/public"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "/ecs/nginx",
+        "awslogs-region": "ap-northeast-1",
+        "awslogs-stream-prefix": "ecs-nginx"
+      }
+    }
+  }
+]
