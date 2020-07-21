@@ -1,7 +1,7 @@
 [
   {
     "name": "${image_name}",
-    "image": "870606920334.dkr.ecr.ap-northeast-1.amazonaws.com/app",
+    "image": "870606920334.dkr.ecr.ap-northeast-1.amazonaws.com/app:${image_tag}",
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
@@ -25,8 +25,7 @@
         { "name": "RAILS_MASTER_KEY", "value": "${rails_master_key}" },
         { "name": "DATABASE_HOST", "value": "${db_host}" },
         { "name": "DATABASE_USERNAME", "value": "${db_user}" },
-        { "name": "DATABASE_PASSWORD", "value": "${db_password}" },
-        { "name": "DATABASE_NAME", "value": "${db_name}" }
+        { "name": "DATABASE_PASSWORD", "value": "${db_password}" }
     ],
     "essential": true,
     "command": ["bundle", "exec", "puma", "-C", "/app/config/puma.rb"]

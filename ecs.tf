@@ -49,12 +49,11 @@ data "template_file" "container_definitions" {
     account_id = local.account_id
     region     = local.region
     image_name   = "app" # var.image_name
-    image_tag = "1.0"
+    image_tag = "1.4"
 
     db_host = aws_rds_cluster.this.endpoint
     db_user = var.db_user
     db_password = var.db_password
-    db_name     = var.db_name
 
     rails_master_key = var.rails_master_key
   }
