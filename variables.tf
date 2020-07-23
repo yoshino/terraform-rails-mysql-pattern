@@ -1,6 +1,5 @@
 variable "region" {}
 variable "profile" {}
-variable "domain" {}
 
 terraform {
   required_version = "~> 0.12"
@@ -20,6 +19,10 @@ variable "prefix" {
     default = "sample-project"
 }
 
+variable "domain" {
+  type = string
+}
+
 variable "db_user" {
   type = string
 }
@@ -37,5 +40,9 @@ variable "rails_master_key" {
 }
 
 variable "image_name" {
+  type = string
+}
+
+variable "image_tag" {
   type = string
 }

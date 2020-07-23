@@ -11,10 +11,8 @@ resource "aws_vpc" "main" {
 # Public Subnet
 # https://www.terraform.io/docs/providers/aws/r/subnet.html
 resource "aws_subnet" "public_1a" {
-	# 先程作成したVPCを参照し、そのVPC内にSubnetを立てる
 	vpc_id = aws_vpc.main.id
 
-	# Subnetを作成するAZ
 	availability_zone = "ap-northeast-1a"
 
 	cidr_block = "10.0.1.0/24"
@@ -37,7 +35,7 @@ resource "aws_subnet" "public_1c" {
 }
 
 resource "aws_subnet" "public_1d" {
-	vpc_id = "${aws_vpc.main.id}"
+	vpc_id = aws_vpc.main.id
 
 	availability_zone = "ap-northeast-1d"
 
@@ -96,7 +94,6 @@ resource "aws_internet_gateway" "main" {
 }
 
 # Elasti IP
-# NAT Gateway には1つの Elastic IP が必要なので作成
 # https://www.terraform.io/docs/providers/aws/r/eip.html
 resource "aws_eip" "nat_1a" {
 	vpc = true

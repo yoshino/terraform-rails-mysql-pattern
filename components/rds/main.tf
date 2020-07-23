@@ -1,6 +1,3 @@
-# 【解説】locals は名前のとおりローカル変数です。
-# variables だと `${}` 展開できないのでこちらを使用しました。
-# 他にやり方があれば教えてほしいです。
 locals {
 	name = "${var.prefix}-rds-mysql"
 }
@@ -9,7 +6,7 @@ resource "aws_security_group" "this" {
 	name        = local.name
 	description = local.name
 
-	vpc_id = aws_vpc.main.id
+	vpc_id = var.vpc_id
 
   egress {
 	  from_port   = 0
@@ -24,7 +21,7 @@ resource "aws_security_group" "this" {
 }
 
 resource "aws_security_group_rule" "mysql" {
-	security_group_id = "${aws_security_group.this.id}"
+	security_group_id = aws_security_group.this.id
 
 	type = "ingress"
 
@@ -37,11 +34,7 @@ resource "aws_security_group_rule" "mysql" {
 resource "aws_db_subnet_group" "this" {
 	name        = local.name
 	description = local.name
-	subnet_ids  = [
-		aws_subnet.private_1a.id,
-		aws_subnet.private_1c.id,
-		aws_subnet.private_1d.id,
-	]
+	subnet_ids  = var.private_subnet_ids
 }
 
 # RDS Cluster
@@ -59,10 +52,8 @@ resource "aws_rds_cluster" "this" {
 	master_username = var.db_user
 	master_password = var.db_password
 
-	# RDSインスタンス削除時のスナップショットの取得強制を無効化
 	skip_final_snapshot = true
 
-	# 使用する Parameter Group を指定
 	db_cluster_parameter_group_name = aws_rds_cluster_parameter_group.this.name
 }
 
@@ -79,7 +70,6 @@ resource "aws_rds_cluster_instance" "this" {
 
 # RDS Cluster Parameter Group
 # https://www.terraform.io/docs/providers/aws/r/rds_cluster_parameter_group.html
-# 日本時間に変更 & 日本語対応のために文字コードを変更
 resource "aws_rds_cluster_parameter_group" "this" {
 	name   = local.name
 	family = "aurora-mysql5.7"
@@ -113,12 +103,4 @@ resource "aws_rds_cluster_parameter_group" "this" {
 		name  = "character_set_server"
 		value = "utf8mb4"
 	}
-}
-
-# terraform applyコマンド完了時にコンソールにエンドポイントを表示
-# 【解説】もしエンドポイントも機密情報として扱うのであれば
-# ここで表示されたエンドポイントをパラメータストアに格納すればよい。
-# 今回は紹介のために使用。
-output "rds_endpoint" {
-	value = aws_rds_cluster.this.endpoint
 }
