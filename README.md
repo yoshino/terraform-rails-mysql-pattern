@@ -1,6 +1,8 @@
 ## 概要
 構成: Rails + Nginx(ソケット通信) + Aurora DB
 
+※ RailsとNginxのDockerイメージに関しては[docker-nginx-socket-rails-mysql](https://github.com/yoshino/docker-nginx-socket-rails-mysql) を参照
+
 ![main](https://user-images.githubusercontent.com/17586662/88455429-30696180-ceb0-11ea-9770-69ff40b8efa4.png)
 
 
