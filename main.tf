@@ -48,3 +48,27 @@ module "ecs" {
   image_tag = var.image_tag
   rails_master_key = var.rails_master_key
 }
+
+module "db_create_task_definition" {
+  source = "./tasks/db_create"
+
+  image_name = var.image_name
+  image_tag = var.image_tag
+  rds_cluster_endpoint = module.rds.rds_cluster_endpoint
+  db_user   = var.db_user
+  db_password = var.db_password
+  rails_master_key = var.rails_master_key
+  iam_role_ecs_task_execution_role_arn = module.ecs.iam_role_ecs_task_execution_role_arn
+}
+
+module "db_migrate_task_definition" {
+  source = "./tasks/db_migrate"
+
+  image_name = var.image_name
+  image_tag = var.image_tag
+  rds_cluster_endpoint = module.rds.rds_cluster_endpoint
+  db_user   = var.db_user
+  db_password = var.db_password
+  rails_master_key = var.rails_master_key
+  iam_role_ecs_task_execution_role_arn = module.ecs.iam_role_ecs_task_execution_role_arn
+}
