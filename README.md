@@ -1,6 +1,10 @@
 ## 概要
 構成: Rails + Nginx(ソケット通信) + Aurora DB
 
+![main](https://user-images.githubusercontent.com/17586662/88455429-30696180-ceb0-11ea-9770-69ff40b8efa4.png)
+
+
+
 ## 開発環境
 `environments`下の対象の環境へ移動して、開発環境ごとに異なる環境変数を適用するのが良さそう。
 
@@ -15,12 +19,10 @@ terraform init -var-file terraform.tfvars
 
 ## rails db:migrate の実行方法
 タスク定義しかしていないので、実際に実行するにはAWS上で実行する必要がある。
-
 ECRのイメージのbuildを自動化するために利用するAWSの`Code Build`や`GitHub Aciton`で一緒に`rails db:migrate`を実行するのが一般的だと思う。
 
 ## 秘匿情報の管理
 環境変数で管理している秘匿情報を、AWS Systems Managerのパラメータストアを利用して管理するのが良さそう。
-
 terrafromを使って自動化もできるけど、手作業でパラメータストアに保存しても、あまり煩雑にならないので良いかもしれない。
 
 以下の例では、`/app/master_key`として`RAILS_MASTER_KEY`を保存していた場合の例。
