@@ -1,6 +1,18 @@
 ## 概要
 構成: Rails + Nginx(ソケット通信) + Aurora DB
 
+## 開発環境
+`environments`下の対象の環境へ移動して、開発環境ごとに異なる環境変数を適用するのが良さそう。
+
+```
+cd ./environments/production/
+terraform applly -var-file terraform.tfvars
+terraform plan -var-file terraform.tfvars
+terraform init -var-file terraform.tfvars
+```
+
+※ 現状はルート直下で`terraform`実行するので環境間でリソースを共有してしまう
+
 ## rails db:migrate の実行方法
 タスク定義しかしていないので、実際に実行するにはAWS上で実行する必要がある。
 
