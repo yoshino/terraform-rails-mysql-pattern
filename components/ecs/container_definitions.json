@@ -1,11 +1,11 @@
 [
   {
-    "name": "${image_name}",
-    "image": "870606920334.dkr.ecr.ap-northeast-1.amazonaws.com/app:${image_tag}",
+    "name": "${app_image_name}",
+    "image": "870606920334.dkr.ecr.ap-northeast-1.amazonaws.com/${app_image_name}:${app_image_tag}",
     "logConfiguration": {
       "logDriver": "awslogs",
       "options": {
-        "awslogs-group": "/ecs/${image_name}",
+        "awslogs-group": "/ecs/${app_image_name}",
         "awslogs-region": "ap-northeast-1",
         "awslogs-stream-prefix": "ecs-app"
       }
@@ -32,7 +32,7 @@
   },
   {
     "name": "nginx",
-    "image": "870606920334.dkr.ecr.ap-northeast-1.amazonaws.com/nginx:1.0",
+    "image": "870606920334.dkr.ecr.ap-northeast-1.amazonaws.com/${nginx_image_name}:${nginx_image_tag}",
     "portMappings": [
       {
         "hostPort": 8080,
@@ -48,14 +48,6 @@
         "sourceVolume": "public-data",
         "containerPath": "/app/public"
       }
-    ],
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-group": "/ecs/nginx",
-        "awslogs-region": "ap-northeast-1",
-        "awslogs-stream-prefix": "ecs-nginx"
-      }
-    }
+    ]
   }
 ]

@@ -44,16 +44,18 @@ module "ecs" {
   prefix   = var.prefix
   db_user   = var.db_user
   db_password = var.db_password
-  image_name = var.image_name
-  image_tag = var.image_tag
+  app_image_name = var.app_image_name
+  app_image_tag = var.app_image_tag
+  nginx_image_name = var.nginx_image_name
+  nginx_image_tag = var.nginx_image_tag
   rails_master_key = var.rails_master_key
 }
 
 module "db_create_task_definition" {
   source = "./tasks/db_create"
 
-  image_name = var.image_name
-  image_tag = var.image_tag
+  app_image_name = var.app_image_name
+  app_image_tag = var.app_image_tag
   rds_cluster_endpoint = module.rds.rds_cluster_endpoint
   db_user   = var.db_user
   db_password = var.db_password
@@ -64,8 +66,8 @@ module "db_create_task_definition" {
 module "db_migrate_task_definition" {
   source = "./tasks/db_migrate"
 
-  image_name = var.image_name
-  image_tag = var.image_tag
+  app_image_name = var.app_image_name
+  app_image_tag = var.app_image_tag
   rds_cluster_endpoint = module.rds.rds_cluster_endpoint
   db_user   = var.db_user
   db_password = var.db_password

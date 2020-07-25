@@ -1,5 +1,10 @@
-variable "region" {}
-variable "profile" {}
+variable "region" {
+  type = string
+}
+
+variable "profile" {
+  type = string
+}
 
 terraform {
   required_version = "~> 0.12"
@@ -39,10 +44,18 @@ variable "rails_master_key" {
   type = string
 }
 
-variable "image_name" {
+variable "app_image_name" {
   type = string
 }
 
-variable "image_tag" {
+variable "app_image_tag" {
+  type = string
+}
+
+variable "nginx_image_name" {
+  type = string
+}
+
+variable "nginx_image_tag" {
   type = string
 }

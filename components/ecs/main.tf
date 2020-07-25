@@ -47,8 +47,10 @@ data "template_file" "container_definitions" {
   vars = {
     account_id = local.account_id
     region     = local.region
-    image_name   = var.image_name
-    image_tag = var.image_tag
+    app_image_name   = var.app_image_name
+    app_image_tag = var.app_image_tag
+    nginx_image_name   = var.nginx_image_name
+    nginx_image_tag = var.nginx_image_tag
 
     db_host = var.rds_cluster_endpoint
     db_user = var.db_user
@@ -59,11 +61,7 @@ data "template_file" "container_definitions" {
 }
 
 resource "aws_cloudwatch_log_group" "this" {
-  name              = "/ecs/${var.image_name}"
-  retention_in_days = "7"
-}
-resource "aws_cloudwatch_log_group" "nginx" {
-  name              = "/ecs/nginx"
+  name              = "/ecs/${var.app_image_name}"
   retention_in_days = "7"
 }
 
